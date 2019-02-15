@@ -13,7 +13,9 @@ struct SpeechMessage {
     let isIncoming: Bool
 }
 
-class ViewController: UITableViewController {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    private var tableView : UITableView!
     
     //if record button tapped isIncoming = true
     //if speak button tapped isIncoming = false
@@ -35,6 +37,7 @@ class ViewController: UITableViewController {
     let speechInputContainerView : UIView = {
         let view = UIView()
         view.backgroundColor = .red
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -42,18 +45,28 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(speechInputContainerView)
+        //view.addSubview(speechInputContainerView)
         
-        view.addConstraintsWithFormat("H: |[v0]|", views: speechInputContainerView)
-        view.addConstraintsWithFormat("V:|[v0(48)]|)", views: speechInputContainerView)
-        
+
         navigationItem.title = "Messages"
         navigationController?.navigationBar.prefersLargeTitles = true
         // Do any additional setup after loading the view, typically from a nib.
         
-        tableView.register(SpeechCell.self , forCellReuseIdentifier: cellId)
-        //tableView.separatorStyle = .none
-        tableView.backgroundColor = UIColor( white: 0.98, alpha: 1 )
+       
+        
+        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 500.0, height: 500.0))
+        
+        view.addSubview(tableView)
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        
+        
+      
         
 //        speechLabel.translatesAutoresizingMaskIntoConstraints = false
 //
@@ -70,19 +83,18 @@ class ViewController: UITableViewController {
 //        trailingConstraint = speechLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
 //        trailingConstraint.isActive = true
         
-//        let newView = UIView()
-//        newView.backgroundColor = UIColor.red
-//        view.addSubview(newView)
-//
-//        view.
-//
-//        newView.translatesAutoresizingMaskIntoConstraints = false
-//        let horizontalConstraint = NSLayoutConstraint(item: newView, attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1, constant: 0)
-//        let verticalConstraint = NSLayoutConstraint(item: newView, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: view, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 1, constant: 300)
-//        let widthConstraint = NSLayoutConstraint(item: newView, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 300)
-//        let heightConstraint = NSLayoutConstraint(item: newView, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 50)
-//        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        tableView.register(SpeechCell.self , forCellReuseIdentifier: cellId)
         
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        self.view.addSubview(tableView)
+        
+       
+        //tableView.separatorStyle = .none
+        tableView.backgroundColor = UIColor( white: 0.98, alpha: 1 )
+        
+
 //        let toolbar = UIToolbar()
 //        let flexibleBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
 //        let textfield = UITextField()
@@ -96,12 +108,12 @@ class ViewController: UITableViewController {
     
     
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return speechMessages.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SpeechCell
 //        cell.textLabel?.text = "little miss muffet sat on a tuffet eating her curds and whey she had a great fall and didn't get up and little miss muffet died in bed. when miss muffet had a tuffet "
    //     cell.textLabel?.numberOfLines = 0
