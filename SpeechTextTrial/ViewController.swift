@@ -65,14 +65,34 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         
-        let bottomView : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-        bottomView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        let bottomView : UIView = UIView()
+        
+        bottomView.translatesAutoresizingMaskIntoConstraints = false
+        
         bottomView.backgroundColor = .red
         self.view.addSubview(bottomView)
+        let constraint = bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        let constraint2 = bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        let bottomConstraint = bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        //let horizontalConstraint = bottomView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        //let verticalConstraint = bottomView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        let widthConstraint = bottomView.widthAnchor.constraint(equalToConstant: 400)
+        let heightConstraint = bottomView.heightAnchor.constraint(equalToConstant: 80)
+        constraint.isActive = true
+        constraint2.isActive = true
+        widthConstraint.isActive = true
+        heightConstraint.isActive = true
+        bottomConstraint.isActive = true
+        //NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        //bottomView.translatesAutoresizingMaskIntoConstraints = false
+        //bottomView.widthAnchor.constraint(equalToConstant: 300)
+        //bottomView.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: 32).isActive = true
+        
+      
         //bottomView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         //bottomView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         //bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-        self.view.bringSubviewToFront(bottomView)
+        //self.view.bringSubviewToFront(bottomView)
         
         bottomView.layer.zPosition = 1
         
