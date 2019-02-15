@@ -13,6 +13,7 @@
 		4B31D529220BB9AF00534E08 /* SpeechTextTrial.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4B31D527220BB9AF00534E08 /* SpeechTextTrial.xcdatamodeld */; };
 		4B31D52B220BB9B100534E08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B31D52A220BB9B100534E08 /* Assets.xcassets */; };
 		4B31D52E220BB9B100534E08 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B31D52C220BB9B100534E08 /* LaunchScreen.storyboard */; };
+		4B31D536220BBF0B00534E08 /* SpeechCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B31D535220BBF0B00534E08 /* SpeechCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		4B31D52A220BB9B100534E08 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4B31D52D220BB9B100534E08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4B31D52F220BB9B100534E08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4B31D535220BBF0B00534E08 /* SpeechCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				4B31D52C220BB9B100534E08 /* LaunchScreen.storyboard */,
 				4B31D52F220BB9B100534E08 /* Info.plist */,
 				4B31D527220BB9AF00534E08 /* SpeechTextTrial.xcdatamodeld */,
+				4B31D535220BBF0B00534E08 /* SpeechCell.swift */,
 			);
 			path = SpeechTextTrial;
 			sourceTree = "<group>";
@@ -141,6 +144,7 @@
 				4B31D529220BB9AF00534E08 /* SpeechTextTrial.xcdatamodeld in Sources */,
 				4B31D523220BB9AF00534E08 /* ViewController.swift in Sources */,
 				4B31D521220BB9AF00534E08 /* AppDelegate.swift in Sources */,
+				4B31D536220BBF0B00534E08 /* SpeechCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +291,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PGAF8QBXHU;
 				INFOPLIST_FILE = SpeechTextTrial/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -304,6 +309,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PGAF8QBXHU;
 				INFOPLIST_FILE = SpeechTextTrial/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
