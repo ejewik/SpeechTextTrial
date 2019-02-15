@@ -34,12 +34,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         ]
     
-    let speechInputContainerView : UIView = {
-        let view = UIView()
-        view.backgroundColor = .red
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+//    let bottomView : UIView = {
+//        let bottomView = UIView()
+//        bottomView.backgroundColor = .red
+//        bottomView.translatesAutoresizingMaskIntoConstraints = false
+//        return bottomView
+//    }()
     
 
     override func viewDidLoad() {
@@ -52,7 +52,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         navigationController?.navigationBar.prefersLargeTitles = true
         // Do any additional setup after loading the view, typically from a nib.
         
-       
+        
         
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 500.0, height: 500.0))
         
@@ -64,6 +64,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        
+        let bottomView : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+        bottomView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        bottomView.backgroundColor = .red
+        self.view.addSubview(bottomView)
+        //bottomView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        //bottomView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        //bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        self.view.bringSubviewToFront(bottomView)
+        
+        bottomView.layer.zPosition = 1
         
         
       
@@ -105,6 +116,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
     }
+    
+    
     
     
 
