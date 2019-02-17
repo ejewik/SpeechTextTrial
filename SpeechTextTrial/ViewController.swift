@@ -44,98 +44,103 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //view.addSubview(speechInputContainerView)
-        
-
-        navigationItem.title = "Messages"
+ 
+        navigationItem.title = ""
         navigationController?.navigationBar.prefersLargeTitles = true
-        // Do any additional setup after loading the view, typically from a nib.
         
+        //initialize tableview and add constraints
+ 
+        tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         
-        
-        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 500.0, height: 500.0))
         
         view.addSubview(tableView)
         
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         
+        //tableView.layer.zPosition = 3
+        
+        //initialize bottom view and set constraints
+        
         let bottomView : UIView = UIView()
-        
         bottomView.translatesAutoresizingMaskIntoConstraints = false
-        
-        bottomView.backgroundColor = .red
+        bottomView.backgroundColor = .gray
         self.view.addSubview(bottomView)
-        let constraint = bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        let constraint2 = bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        let bottomConstraint = bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        //let horizontalConstraint = bottomView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        //let verticalConstraint = bottomView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        let widthConstraint = bottomView.widthAnchor.constraint(equalToConstant: 400)
-        let heightConstraint = bottomView.heightAnchor.constraint(equalToConstant: 80)
-        constraint.isActive = true
-        constraint2.isActive = true
-        widthConstraint.isActive = true
-        heightConstraint.isActive = true
-        bottomConstraint.isActive = true
-        //NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        //bottomView.translatesAutoresizingMaskIntoConstraints = false
-        //bottomView.widthAnchor.constraint(equalToConstant: 300)
-        //bottomView.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: 32).isActive = true
+        
+        let leadingViewConstraint = bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        let trailingViewConstraint = bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        let bottomViewConstraint = bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        //let widthViewConstraint = bottomView.widthAnchor.constraint(equalToConstant: 400)
+        let heightViewConstraint = bottomView.heightAnchor.constraint(equalToConstant: 40)
+        
+        leadingViewConstraint.isActive = true
+        trailingViewConstraint.isActive = true
+        //widthViewConstraint.isActive = true
+        heightViewConstraint.isActive = true
+        bottomViewConstraint.isActive = true
+        
+        bottomView.layer.zPosition = 2
+        
+        //initialize speech text field and set constraints
+        
+        let speechField : UITextField = UITextField()
+        speechField.translatesAutoresizingMaskIntoConstraints = false
+        speechField.placeholder = "Enter text here"
+        speechField.font = UIFont.systemFont(ofSize: 15)
+        speechField.keyboardType = .default
+        speechField.returnKeyType = .done
+        speechField.clearButtonMode = .whileEditing
+        speechField.isUserInteractionEnabled = true
+        speechField.translatesAutoresizingMaskIntoConstraints = false
+        speechField.backgroundColor = .white
+        speechField.delegate = self
+        
+        bottomView.addSubview(speechField)
+        
+   
+        
+        let leadingFieldConstraint = speechField.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 12)
+        let trailingFieldConstraint = speechField.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -25)
+        let bottomFieldConstraint = speechField.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -5)
+       // let widthFieldConstraint = speechField.widthAnchor.constraint(equalToConstant: 250)
+        let heightFieldConstraint = speechField.heightAnchor.constraint(equalToConstant: 30)
+        
+        leadingFieldConstraint.isActive = true
+        trailingFieldConstraint.isActive = true
+        bottomFieldConstraint.isActive = true
+        //widthFieldConstraint.isActive = true
+        heightFieldConstraint.isActive = true
+        
+        speechField.layer.zPosition = 1
+        
+        speechField.layer.cornerRadius = 15.0
         
       
-        //bottomView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        //bottomView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        //bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-        //self.view.bringSubviewToFront(bottomView)
+        print(speechField.bounds)
+        print(bottomView.bounds)
         
-        bottomView.layer.zPosition = 1
-        
-        
-      
-        
-//        speechLabel.translatesAutoresizingMaskIntoConstraints = false
-//
-//        //constraints
-//        let constraints = [speechLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-//                           speechLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
-//                           speechLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 250)]
-//
-//        NSLayoutConstraint.activate(constraints)
-//
-//        leadingConstraint = speechLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16)
-//        leadingConstraint.isActive = false
-//
-//        trailingConstraint = speechLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
-//        trailingConstraint.isActive = true
         
         tableView.register(SpeechCell.self , forCellReuseIdentifier: cellId)
         
         tableView.dataSource = self
         tableView.delegate = self
         
-        self.view.addSubview(tableView)
+        //self.view.addSubview(tableView)
         
        
-        //tableView.separatorStyle = .none
+       
         tableView.backgroundColor = UIColor( white: 0.98, alpha: 1 )
-        
-
-//        let toolbar = UIToolbar()
-//        let flexibleBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-//        let textfield = UITextField()
-//        let textfieldBarButton = UIBarButtonItem.init(customView: textfield)
-//        // UIToolbar expects an array of UIBarButtonItems:
-//        toolbar.items = [flexibleBarButton, textfieldBarButton, flexibleBarButton]
-//        view.addSubview(toolbar)
         
         
     }
+    
+//    func handleTap(gestureRecognizer: UITapGestureRecognizer) {
+//        print("In handler")
+//    }
     
     
     
@@ -162,6 +167,58 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         return cell
     }
+    
+    
 
+}
+
+extension ViewController: UITextFieldDelegate {
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        // return NO to disallow editing.
+        print("TextField should begin editing method called")
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        // became first responder
+        print("TextField did begin editing method called")
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        // return YES to allow editing to stop and to resign first responder status. NO to disallow the editing session to end
+        print("TextField should snd editing method called")
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // may be called if forced even if shouldEndEditing returns NO (e.g. view removed from window) or endEditing:YES called
+        print("TextField did end editing method called")
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        // if implemented, called in place of textFieldDidEndEditing:
+        print("TextField did end editing with reason method called")
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // return NO to not change text
+        print("While entering the characters this method gets called")
+        return true
+    }
+    
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        // called when clear button pressed. return NO to ignore (no notifications)
+        print("TextField should clear method called")
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // called when 'return' key pressed. return NO to ignore.
+        print("TextField should return method called")
+        // may be useful: textField.resignFirstResponder()
+        return true
+    }
+    
 }
 
