@@ -44,6 +44,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        //Looks for single or multiple taps.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
+        
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //tap.cancelsTouchesInView = false
+        
+        view.addGestureRecognizer(tap)
+        self.hideKeyboardWhenTappedAround()
  
         navigationItem.title = ""
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -109,6 +121,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
        // let widthFieldConstraint = speechField.widthAnchor.constraint(equalToConstant: 250)
         let heightFieldConstraint = speechField.heightAnchor.constraint(equalToConstant: 30)
         
+       
+        
         leadingFieldConstraint.isActive = true
         trailingFieldConstraint.isActive = true
         bottomFieldConstraint.isActive = true
@@ -168,9 +182,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
     
 
 }
+
+
+
 
 extension ViewController: UITextFieldDelegate {
     

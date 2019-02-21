@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B0716B5221E73A200B41C41 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0716B4221E73A200B41C41 /* KeyboardLayoutConstraint.swift */; };
+		4B0716B7221E771200B41C41 /* KeyboardDismissExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0716B6221E771200B41C41 /* KeyboardDismissExtension.swift */; };
 		4B31D521220BB9AF00534E08 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B31D520220BB9AF00534E08 /* AppDelegate.swift */; };
 		4B31D523220BB9AF00534E08 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B31D522220BB9AF00534E08 /* ViewController.swift */; };
 		4B31D526220BB9AF00534E08 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B31D524220BB9AF00534E08 /* Main.storyboard */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B0716B4221E73A200B41C41 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardLayoutConstraint.swift; path = Assets.xcassets/KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
+		4B0716B6221E771200B41C41 /* KeyboardDismissExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardDismissExtension.swift; sourceTree = "<group>"; };
 		4B31D51D220BB9AF00534E08 /* SpeechTextTrial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpeechTextTrial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B31D520220BB9AF00534E08 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4B31D522220BB9AF00534E08 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,7 +63,9 @@
 			isa = PBXGroup;
 			children = (
 				4B31D520220BB9AF00534E08 /* AppDelegate.swift */,
+				4B0716B4221E73A200B41C41 /* KeyboardLayoutConstraint.swift */,
 				4B31D522220BB9AF00534E08 /* ViewController.swift */,
+				4B0716B6221E771200B41C41 /* KeyboardDismissExtension.swift */,
 				4B31D524220BB9AF00534E08 /* Main.storyboard */,
 				4B31D52A220BB9B100534E08 /* Assets.xcassets */,
 				4B31D52C220BB9B100534E08 /* LaunchScreen.storyboard */,
@@ -142,8 +148,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B31D529220BB9AF00534E08 /* SpeechTextTrial.xcdatamodeld in Sources */,
+				4B0716B7221E771200B41C41 /* KeyboardDismissExtension.swift in Sources */,
 				4B31D523220BB9AF00534E08 /* ViewController.swift in Sources */,
 				4B31D521220BB9AF00534E08 /* AppDelegate.swift in Sources */,
+				4B0716B5221E73A200B41C41 /* KeyboardLayoutConstraint.swift in Sources */,
 				4B31D536220BBF0B00534E08 /* SpeechCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
