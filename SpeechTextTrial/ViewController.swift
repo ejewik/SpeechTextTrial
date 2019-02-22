@@ -45,6 +45,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let settingsButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsButtonTapped(sender:)))
+        
+        self.navigationItem.rightBarButtonItem = settingsButton
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
@@ -143,11 +147,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.dataSource = self
         tableView.delegate = self
         
-        //self.view.addSubview(tableView)
-        
-       
-       
         tableView.backgroundColor = UIColor( white: 0.98, alpha: 1 )
+        
+        let recordButton : UIButton = UIButton()
+        
+        recordButton.translatesAutoresizingMaskIntoConstraints = false
+        recordButton.backgroundColor = .blue
+        bottomView.addSubview(recordButton)
+        
+        let leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 100)
+        let trailingButtonConstraint = recordButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: 0)
+        let bottomButtonConstraint = recordButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -5)
+        let heightButtonConstraint = recordButton.heightAnchor.constraint(equalToConstant: 30)
+        
+        leadingButtonConstraint.isActive = true
+        trailingButtonConstraint.isActive = true
+        bottomButtonConstraint.isActive = true
+        heightButtonConstraint.isActive = true
         
         
     }
@@ -194,6 +210,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
+    }
+    
+    @objc func settingsButtonTapped(sender: UIButton!) {
+        print("Settings button tapped")
     }
     
     
