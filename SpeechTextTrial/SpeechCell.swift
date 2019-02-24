@@ -54,11 +54,11 @@ class SpeechCell: UITableViewCell {
         speechLabel.translatesAutoresizingMaskIntoConstraints = false
         
         //constraints
-        let constraints = [speechLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-                           speechLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
-                           speechLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 250)]
+        //speechLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16)
+        //speechLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+        let widthConstraint = speechLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 250)
         
-        NSLayoutConstraint.activate(constraints)
+        NSLayoutConstraint.activate([widthConstraint])
         
         leadingConstraint = speechLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16)
         leadingConstraint.isActive = false

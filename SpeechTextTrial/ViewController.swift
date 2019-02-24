@@ -10,18 +10,20 @@ import UIKit
 import Speech
 
 struct SpeechMessage {
-    let text: String
-    let isIncoming: Bool
+    var text: String
+    var isIncoming: Bool
 }
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SFSpeechRecognizerDelegate {
     
+    //why are constraints not working for speechcell??
     private var tableView : UITableView!
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
     private let recordButton : UIButton = UIButton()
+    private var speechAssign = SpeechMessage(text: "", isIncoming: true)
     
     
     
@@ -30,17 +32,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     fileprivate let cellId = "id"
     
-    var speechMessages = [
-         SpeechMessage(text: "Hello there I am testing right now", isIncoming: true),
-         SpeechMessage(text: "Hello there I am testing right now. fdsjhafkdsfdsfdsfkafjdsflhdsfdfjdsfkhdflkdsfhdsjflhdsajfhdsjfhdsjkfdsjfasd", isIncoming: false),
-         SpeechMessage(text: "Hello there I am testing right now", isIncoming: true),
-        SpeechMessage(text: "Hello there I am testing right now", isIncoming: false),
-        SpeechMessage(text: "Hello there I am testing right now", isIncoming: true),
-        SpeechMessage(text: "Hello there I am testing right now", isIncoming: false),
-        SpeechMessage(text: "Hello there I am testing right now", isIncoming: true),
-        SpeechMessage(text: "Hello there I am testing right now", isIncoming: true)
-        
-        ]
+    var speechMessages : [SpeechMessage] = []
     
 //    let bottomView : UIView = {
 //        let bottomView = UIView()
@@ -175,7 +167,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         recordButton.backgroundColor = .blue
         bottomView.addSubview(recordButton)
         
-        let leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 100)
+        let leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 350)
         let trailingButtonConstraint = recordButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: 0)
         let bottomButtonConstraint = recordButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -5)
         let heightButtonConstraint = recordButton.heightAnchor.constraint(equalToConstant: 30)
@@ -221,8 +213,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         
+       
         
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
     }
     
 //    func handleTap(gestureRecognizer: UITapGestureRecognizer) {
@@ -240,6 +237,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SpeechCell
+        
+        cell.contentView.sizeToFit()
+        cell.contentView.layoutIfNeeded()
 //        cell.textLabel?.text = "little miss muffet sat on a tuffet eating her curds and whey she had a great fall and didn't get up and little miss muffet died in bed. when miss muffet had a tuffet "
    //     cell.textLabel?.numberOfLines = 0
         
@@ -283,9 +283,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         } else {
             //speakButton.isEnabled = false
-            let speech = SpeechMessage(text: "message", isIncoming: false)
-            self.speechMessages.append(speech)
-            startRecording(speech: speech)
+            speechAssign = SpeechMessage(text: "", isIncoming: false)
+            self.speechMessages.append(speechAssign)
+            startRecording(speech: speechAssign)
             
             
         }
@@ -322,6 +322,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if result != nil {
                 self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.textLabel?.text = result?.bestTranscription.formattedString
+                //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.
+                //self.speechMessages.append(self.speechAssign)
+                self.speechAssign.isIncoming = false
+                self.speechAssign.text = result?.bestTranscription.formattedString ?? ""
                 self.tableView.reloadData()
                 
                 //speech._speech = result?.bestTranscription.formattedString
