@@ -8,15 +8,36 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
-
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+//need cell for change color, male/female voice, make text bigger, attribution page, 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.view.backgroundColor = .white
         
+        let tableView : UITableView = UITableView()
     }
     
-
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "sectionCell", for: indexPath)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return messages.count //probably bc no messages in message array?
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        //let message = messages[indexPath.row]
+//
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "Message", for: indexPath) as! MessagesCell
+//        cell.contentView.backgroundColor = UIColor.gray
+//        return cell
+//    }
     
 
 }

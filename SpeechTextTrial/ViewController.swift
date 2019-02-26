@@ -23,7 +23,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
     private let recordButton : UIButton = UIButton()
-    private var speechAssign = SpeechMessage(text: "", isIncoming: true)
+    private var speechAssign = SpeechMessage(text: "", isIncoming: false)
     
     
     
@@ -271,6 +271,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func settingsButtonTapped(sender: UIButton!) {
         print("Settings button tapped")
+        
+//        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "nextView") as! NextViewController
+//        self.present(nextViewController, animated:true, completion:nil)
+        
+        let settingsViewController : SettingsViewController = SettingsViewController()
+        self.navigationController!.pushViewController(settingsViewController, animated: true)
     }
     
     @objc func recordButtonTapped(sender: UIButton!) {
@@ -324,7 +330,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.textLabel?.text = result?.bestTranscription.formattedString
                 //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.
                 //self.speechMessages.append(self.speechAssign)
-                self.speechAssign.isIncoming = false
+                //self.speechAssign.isIncoming = false
                 self.speechAssign.text = result?.bestTranscription.formattedString ?? ""
                 self.tableView.reloadData()
                 
