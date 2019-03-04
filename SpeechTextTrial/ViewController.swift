@@ -24,7 +24,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private let audioEngine = AVAudioEngine()
     private let recordButton : UIButton = UIButton()
     private var speechAssign = SpeechMessage(text: "", isIncoming: false)
-    
+    var cell : SpeechCell = SpeechCell()
     
     
     //if record button tapped isIncoming = true
@@ -236,14 +236,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SpeechCell
+        cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SpeechCell
         
-        cell.contentView.sizeToFit()
-        cell.contentView.layoutIfNeeded()
+        //cell.contentView.sizeToFit()
+        //cell.contentView.layoutIfNeeded()
 //        cell.textLabel?.text = "little miss muffet sat on a tuffet eating her curds and whey she had a great fall and didn't get up and little miss muffet died in bed. when miss muffet had a tuffet "
    //     cell.textLabel?.numberOfLines = 0
         
         let speechMessage = speechMessages[indexPath.row]
+        
+        //try for fade in effect later on
+        
         cell.speechLabel.text = speechMessage.text
 //        cell.isIncoming = speechMessage.isIncoming
         
@@ -289,7 +292,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         } else {
             //speakButton.isEnabled = false
-            speechAssign = SpeechMessage(text: "", isIncoming: false)
+            speechAssign = SpeechMessage(text: "", isIncoming: true)
             self.speechMessages.append(speechAssign)
             startRecording(speech: speechAssign)
             
@@ -327,13 +330,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             var isFinal = false
             
             if result != nil {
-                self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.textLabel?.text = result?.bestTranscription.formattedString
+                //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.textLabel?.text = result?.bestTranscription.formattedString
                 //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.
                 //self.speechMessages.append(self.speechAssign)
                 //self.speechAssign.isIncoming = false
+                //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.speechLabel.text = result?.bestTranscription.formattedString
                 self.speechAssign.text = result?.bestTranscription.formattedString ?? ""
+                self.cell.speechLabel.text = result?.bestTranscription.formattedString ?? ""
                 self.tableView.reloadData()
-                
+                self.speechMessages[0].text = result?.bestTranscription.formattedString ?? ""
                 //speech._speech = result?.bestTranscription.formattedString
                 isFinal = (result?.isFinal)!
             }
