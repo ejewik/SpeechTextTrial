@@ -24,7 +24,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private let audioEngine = AVAudioEngine()
     private let recordButton : UIButton = UIButton()
     private var speechAssign = SpeechMessage(text: "", isIncoming: false)
-    var cell : SpeechCell = SpeechCell()
+   // var cell : SpeechCell = SpeechCell()
     
     
     //if record button tapped isIncoming = true
@@ -236,7 +236,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SpeechCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SpeechCell
         
         //cell.contentView.sizeToFit()
         //cell.contentView.layoutIfNeeded()
@@ -336,9 +336,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //self.speechAssign.isIncoming = false
                 //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.speechLabel.text = result?.bestTranscription.formattedString
                 self.speechAssign.text = result?.bestTranscription.formattedString ?? ""
-                self.cell.speechLabel.text = result?.bestTranscription.formattedString ?? ""
+                //self.cell.speechLabel.text = result?.bestTranscription.formattedString ?? ""
                 self.tableView.reloadData()
-                self.speechMessages[0].text = result?.bestTranscription.formattedString ?? ""
+                self.speechMessages[self.speechMessages.count - 1].text = result?.bestTranscription.formattedString ?? ""
                 //speech._speech = result?.bestTranscription.formattedString
                 isFinal = (result?.isFinal)!
             }
