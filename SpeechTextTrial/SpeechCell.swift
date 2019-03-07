@@ -16,6 +16,8 @@ class SpeechCell: UITableViewCell {
     
     var leadingConstraint: NSLayoutConstraint!
     var trailingConstraint: NSLayoutConstraint!
+    var topConstraint: NSLayoutConstraint!
+    var bottomConstraint: NSLayoutConstraint!
     
     var speechMessage: SpeechMessage! {
         didSet {
@@ -50,15 +52,18 @@ class SpeechCell: UITableViewCell {
         
         addSubview(speechLabel)
        
-//        speechLabel.backgroundColor = .green
-        speechLabel.text = "Little miss muffet sat in her tuffet eating her curds and whey she had a great fall and tumbled and all and couldn't get back up again. testing testing testing testtttt"
+
         speechLabel.numberOfLines = 0
         
         speechLabel.translatesAutoresizingMaskIntoConstraints = false
         
         //constraints
-        //speechLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16)
-        //speechLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+        topConstraint = speechLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16)
+        topConstraint.isActive = true
+        
+        bottomConstraint = speechLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+        bottomConstraint.isActive = true
+        
         let widthConstraint = speechLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 250)
         
         NSLayoutConstraint.activate([widthConstraint])
@@ -68,6 +73,8 @@ class SpeechCell: UITableViewCell {
         
         trailingConstraint = speechLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         trailingConstraint.isActive = true
+        
+        
         
         
     }
