@@ -107,7 +107,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let bottomView : UIView = UIView()
         bottomView.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.backgroundColor = .gray
         self.view.addSubview(bottomView)
         
         let leadingViewConstraint = bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
@@ -123,13 +122,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         bottomViewConstraint.isActive = true
         
         bottomView.layer.zPosition = 2
-        
+        bottomView.backgroundColor = .white
         //initialize speech text field and set constraints
         
         utterance?.voice = AVSpeechSynthesisVoice(language: "en-US")
         speechField.translatesAutoresizingMaskIntoConstraints = false
-        speechField.placeholder = "Enter text here"
-        speechField.font = UIFont.systemFont(ofSize: 15)
+        speechField.placeholder = "   Enter text here"
+        speechField.font = UIFont.systemFont(ofSize: 17)
         speechField.keyboardType = .default
         speechField.returnKeyType = .done
         speechField.clearButtonMode = .whileEditing
@@ -157,12 +156,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         heightFieldConstraint.isActive = true
         
         speechField.layer.zPosition = 1
-        
+        speechField.borderStyle = .roundedRect
         speechField.layer.cornerRadius = 15.0
         
       
-        print(speechField.bounds)
-        print(bottomView.bounds)
+        
         
         
         tableView.register(SpeechCell.self , forCellReuseIdentifier: cellId)
@@ -176,6 +174,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         recordButton.translatesAutoresizingMaskIntoConstraints = false
         recordButton.backgroundColor = .blue
+        
         bottomView.addSubview(recordButton)
         
         let leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 340)
@@ -208,7 +207,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
         
-        
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
         
         
         
@@ -248,10 +248,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableView.automaticDimension
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        tableView.estimatedRowHeight = 100
+//        tableView.rowHeight = UITableView.automaticDimension
+//    }
     
 //    func handleTap(gestureRecognizer: UITapGestureRecognizer) {
 //        print("In handler")
@@ -428,6 +428,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             recordButton.isEnabled = false
         }
     }
+    
+    func tableView(_ tableView: UITableView,
+                            heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+
     
     deinit {
         NotificationCenter.default.removeObserver(self)

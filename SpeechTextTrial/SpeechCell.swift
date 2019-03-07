@@ -12,12 +12,15 @@ class SpeechCell: UITableViewCell {
 
    let speechLabel = UILabel()
     
+    //need to set all constraints with relation to the superview...
+    
     var leadingConstraint: NSLayoutConstraint!
     var trailingConstraint: NSLayoutConstraint!
     
     var speechMessage: SpeechMessage! {
         didSet {
             speechLabel.textColor = speechMessage.isIncoming ? .darkGray : .blue
+            
             
             speechLabel.text = speechLabel.text
             
