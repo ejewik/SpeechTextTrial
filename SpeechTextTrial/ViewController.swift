@@ -57,7 +57,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
         
-        
+       
         
         
         
@@ -130,7 +130,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         speechField.placeholder = "   Enter text here"
         speechField.font = UIFont.systemFont(ofSize: 17)
         speechField.keyboardType = .default
-        speechField.returnKeyType = .done
+        speechField.returnKeyType = .default
         speechField.clearButtonMode = .whileEditing
         speechField.isUserInteractionEnabled = true
         speechField.translatesAutoresizingMaskIntoConstraints = false
@@ -173,9 +173,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
         recordButton.translatesAutoresizingMaskIntoConstraints = false
-        recordButton.backgroundColor = .blue
+        
         
         bottomView.addSubview(recordButton)
+        
+        let recordImage = UIImage(named: "Ear Icon Speech.png")
+        
+        recordButton.setImage(recordImage , for: .normal)
         
         let leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 340)
         //let trailingButtonConstraint = recordButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -5)
@@ -205,14 +209,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         heightSpeakButtonConstraint.isActive = true
         widthSpeakButtonConstraint.isActive = true
         
-        
+        //tableView.transform = CGAffineTransform (scaleX: 1,y: -1);
+
         
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
-        
-        
-        
-        
+        tableView.separatorStyle = .none
         
         tableView.reloadData()
         recordButton.isEnabled = false
@@ -269,10 +271,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SpeechCell
         
-        //cell.contentView.sizeToFit()
-        //cell.contentView.layoutIfNeeded()
-//        cell.textLabel?.text = "little miss muffet sat on a tuffet eating her curds and whey she had a great fall and didn't get up and little miss muffet died in bed. when miss muffet had a tuffet "
-   //     cell.textLabel?.numberOfLines = 0
+        //transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi));
         
         let speechMessage = speechMessages[indexPath.row]
         
@@ -286,8 +285,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //cell.isIncoming = true
 //        cell.isIncoming = indexPath.row % 2 == 0
         
+        //cell.contentView.transform = CGAffineTransform (scaleX: 1,y: -1);
+        
         return cell
     }
+    
+//    func updateTableContentInset() {
+//        let numRows = tableView(self.tableView, numberOfRowsInSection: 0)
+//        var contentInsetTop = self.tableView.bounds.size.height
+//        for i in 0..<numRows {
+//            let rowRect = self.tableView.rectForRow(at: IndexPath(item: i, section: 0))
+//            contentInsetTop -= rowRect.size.height
+//            if contentInsetTop <= 0 {
+//                contentInsetTop = 0
+//            }
+//        }
+//        self.tableView.contentInset = UIEdgeInsets(top: contentInsetTop, left: 0, bottom: 0, right: 0)
+//    }
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
@@ -329,12 +343,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             startRecording(speech: speechAssign)
             
             
+            
         }
     }
     
     @objc func speakButtonTapped(sender: UIButton!) {
         print("speakButtonTapped")
         print(speakButton.isEnabled)
+        synth.stopSpeaking(at: .immediate)
         if speakButton.isEnabled == true {
             utterance = AVSpeechUtterance(string: speechField.text!)
             synth.speak(utterance!)
@@ -342,7 +358,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             speechMessages.append(SpeechMessage(text: speechField.text!, isIncoming: false))
             speechField.text = ""
             //self.tableView.cellForRow(at: IndexPath(row: self.messages.count-1, section: 0))?.textLabel?.text = speakField.text
-            self.tableView.reloadData() //IT WORKS
+            getTableViewData()
+            //view.accessibilityScroll(direction: )
         }
     }
     
@@ -382,11 +399,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //self.speechMessages.append(self.speechAssign)
                 //self.speechAssign.isIncoming = false
                 //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.speechLabel.text = result?.bestTranscription.formattedString
-                self.speechAssign.text = result?.bestTranscription.formattedString ?? ""
+                //self.speechAssign.text = result?.bestTranscription.formattedString ?? ""
                 //self.cell.speechLabel.text = result?.bestTranscription.formattedString ?? ""
                 self.tableView.reloadData()
+                
+                //if result?.bestTranscription.formattedString != nil {
+                
                 self.speechMessages[self.speechMessages.count - 1].text = result?.bestTranscription.formattedString ?? ""
-                //speech._speech = result?.bestTranscription.formattedString
+                
+                
+                    
+                   // self.speechMessages.removeLast()
+                    
+                    
+               // }
+                
+                
+                //if result?.bestTranscription.formattedString == nil {
+                //    print( "this is\(result?.bestTranscription.formattedString)")
+                //    self.speechMessages.removeLast()
+                //}
+                
                 isFinal = (result?.isFinal)!
             }
             
@@ -394,8 +427,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.audioEngine.stop()
                 inputNode.removeTap(onBus: 0)
                 
+                
+                
                 self.recognitionRequest = nil
                 self.recognitionTask = nil
+                
+                
                 
                 self.recordButton.isEnabled = true
                 self.speakButton.isEnabled = true
@@ -433,6 +470,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                             heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
+    func getTableViewData(){
+        tableView.reloadData()
+        
+        tableView.scrollToBottom()
+    }
+
 
     
     deinit {
@@ -440,6 +484,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
 }
+
+extension UITableView {
+    
+    func scrollToBottom() {
+        let rows = self.numberOfRows(inSection: 0)
+        
+        let indexPath = IndexPath(row: rows - 1, section: 0)
+        self.scrollToRow(at: indexPath, at: .top, animated: true)
+       
+    }
+}
+
 
 
 

@@ -26,6 +26,11 @@ class SpeechCell: UITableViewCell {
             
             speechLabel.text = speechLabel.text
             
+//            speechLabel.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+//            speechLabel.transform = CGAffineTransform( scaleX: -1,y: 1)
+//            
+//            speechLabel.transform = CGAffineTransform(rotationAngle: (180.0 * CGFloat(Double.pi)) / 180.0)
+            
             if speechMessage.isIncoming {
                 leadingConstraint.isActive = true
                 trailingConstraint.isActive = false
