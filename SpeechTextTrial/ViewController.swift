@@ -72,6 +72,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
         let settingsButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsButtonTapped(sender:)))
+        settingsButton.tintColor = UIColor(red: 250/255.0, green: 250/255.0, blue: 250/255.0, alpha: 1)
         
         self.navigationItem.rightBarButtonItem = settingsButton
         self.navigationItem.rightBarButtonItem?.tintColor = .white
