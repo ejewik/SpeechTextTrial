@@ -27,6 +27,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var speechAssign = SpeechMessage(text: "", isIncoming: false)
     private let speechField : UITextField = UITextField()
     private var recordImage : UIImage = UIImage()
+    private var bottomView : UIView = UIView()
+    
     
     var utterance : AVSpeechUtterance?
     
@@ -110,7 +112,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         //initialize bottom view and set constraints
         
-        let bottomView : UIView = UIView()
+        bottomView = UIView()
         bottomView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(bottomView)
         
@@ -118,7 +120,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let trailingViewConstraint = bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         let bottomViewConstraint = bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         //let widthViewConstraint = bottomView.widthAnchor.constraint(equalToConstant: 400)
-        let heightViewConstraint = bottomView.heightAnchor.constraint(equalToConstant: 40)
+        let heightViewConstraint = bottomView.heightAnchor.constraint(equalToConstant: 60)
         
         leadingViewConstraint.isActive = true
         trailingViewConstraint.isActive = true
@@ -132,7 +134,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         utterance?.voice = AVSpeechSynthesisVoice(language: "en-US")
         speechField.translatesAutoresizingMaskIntoConstraints = false
-        speechField.placeholder = "   Enter text here"
+        speechField.placeholder = "   Speak here"
         speechField.font = UIFont.systemFont(ofSize: 17)
         speechField.keyboardType = .default
         speechField.returnKeyType = .default
@@ -144,20 +146,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         bottomView.addSubview(speechField)
         
-   
         
-        let leadingFieldConstraint = speechField.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 12)
-        let trailingFieldConstraint = speechField.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -90)
-        let bottomFieldConstraint = speechField.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -5)
+        
+        let leadingFieldConstraint = speechField.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 20)
+        let trailingFieldConstraint = speechField.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -100)
+       
        // let widthFieldConstraint = speechField.widthAnchor.constraint(equalToConstant: 250)
         let heightFieldConstraint = speechField.heightAnchor.constraint(equalToConstant: 30)
         
-       
+        
         
         leadingFieldConstraint.isActive = true
         trailingFieldConstraint.isActive = true
-        bottomFieldConstraint.isActive = true
-        //widthFieldConstraint.isActive = true
+        //bottomFieldConstraint.isActive = true
         heightFieldConstraint.isActive = true
         
         speechField.layer.zPosition = 1
@@ -189,12 +190,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 340)
         //let trailingButtonConstraint = recordButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -5)
         let widthButtonConstraint = recordButton.widthAnchor.constraint(equalToConstant: 30)
-        let bottomButtonConstraint = recordButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -5)
+        
         let heightButtonConstraint = recordButton.heightAnchor.constraint(equalToConstant: 30)
         
         leadingButtonConstraint.isActive = true
         //trailingButtonConstraint.isActive = true
-        bottomButtonConstraint.isActive = true
+        //bottomButtonConstraint.isActive = true
         heightButtonConstraint.isActive = true
         widthButtonConstraint.isActive = true
         
@@ -204,13 +205,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let leadingSpeakButtonConstraint = speakButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 290)
         //let trailingSpeakButtonConstraint = recordButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -50)
-        let bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -5)
+        //let bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
         let heightSpeakButtonConstraint = speakButton.heightAnchor.constraint(equalToConstant: 30)
         let widthSpeakButtonConstraint = speakButton.widthAnchor.constraint(equalToConstant: 30)
+    
 
         leadingSpeakButtonConstraint.isActive = true
         //trailingSpeakButtonConstraint.isActive = true
-        bottomSpeakButtonConstraint.isActive = true
+        //bottomSpeakButtonConstraint.isActive = true
         heightSpeakButtonConstraint.isActive = true
         widthSpeakButtonConstraint.isActive = true
         
@@ -255,14 +257,31 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        tableView.estimatedRowHeight = 100
-//        tableView.rowHeight = UITableView.automaticDimension
-//    }
-    
-//    func handleTap(gestureRecognizer: UITapGestureRecognizer) {
-//        print("In handler")
-//    }
+    override func viewSafeAreaInsetsDidChange() {
+        
+        let bottomFieldConstraint : NSLayoutConstraint
+        let bottomButtonConstraint : NSLayoutConstraint
+        let bottomSpeakButtonConstraint : NSLayoutConstraint
+        if #available(iOS 11.0, *) {
+            let bottomPadding = view.safeAreaInsets.bottom
+            
+            bottomFieldConstraint = speechField.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10 - bottomPadding)
+            bottomButtonConstraint = recordButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10 - bottomPadding)
+            bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10 - bottomPadding)
+            
+        } else {
+            
+            bottomFieldConstraint = speechField.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
+             bottomButtonConstraint = recordButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
+             bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
+            
+            
+        }
+        
+        bottomFieldConstraint.isActive = true
+        bottomButtonConstraint.isActive = true
+        bottomSpeakButtonConstraint.isActive = true
+    }
     
     
     
