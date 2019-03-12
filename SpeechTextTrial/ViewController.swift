@@ -26,6 +26,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private let speakButton : UIButton = UIButton()
     private var speechAssign = SpeechMessage(text: "", isIncoming: false)
     private let speechField : UITextField = UITextField()
+    private var recordImage : UIImage = UIImage()
     
     var utterance : AVSpeechUtterance?
     
@@ -71,6 +72,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let settingsButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsButtonTapped(sender:)))
         
         self.navigationItem.rightBarButtonItem = settingsButton
+        self.navigationItem.rightBarButtonItem?.tintColor = .white
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -85,7 +87,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.hideKeyboardWhenTappedAround()
  
         navigationItem.title = ""
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.barTintColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
+        
+        
         
         //initialize tableview and add constraints
  
@@ -122,7 +127,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         bottomViewConstraint.isActive = true
         
         bottomView.layer.zPosition = 2
-        bottomView.backgroundColor = .white
+        bottomView.backgroundColor = UIColor(red: 250/255.0, green: 250/255.0, blue: 250/255.0, alpha: 1)
         //initialize speech text field and set constraints
         
         utterance?.voice = AVSpeechSynthesisVoice(language: "en-US")
@@ -177,7 +182,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         bottomView.addSubview(recordButton)
         
-        let recordImage = UIImage(named: "Ear Icon Speech.png")
+        recordImage = UIImage(named: "Microphone Icon.png")!
         
         recordButton.setImage(recordImage , for: .normal)
         
@@ -340,12 +345,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             speakButton.isEnabled = false
             speechAssign = SpeechMessage(text: "", isIncoming: true)
             self.speechMessages.append(speechAssign)
+          
             startRecording(speech: speechAssign)
             
             
             
         }
     }
+    
+    //maybe append "       " speechMessage to last cell to move up view???
     
     @objc func speakButtonTapped(sender: UIButton!) {
         print("speakButtonTapped")
