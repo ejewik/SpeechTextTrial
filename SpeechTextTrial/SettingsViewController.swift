@@ -27,17 +27,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         return 5
     }
     
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return messages.count //probably bc no messages in message array?
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        //let message = messages[indexPath.row]
-//
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "Message", for: indexPath) as! MessagesCell
-//        cell.contentView.backgroundColor = UIColor.gray
-//        return cell
-//    }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
 
 }

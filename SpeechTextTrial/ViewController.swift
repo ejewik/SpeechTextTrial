@@ -29,6 +29,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var recordImage : UIImage = UIImage()
     private var bottomView : UIView = UIView()
     private var blueMicrophoneImage : UIImage = UIImage()
+    private var arrowImage : UIImage = UIImage()
     
     
     var utterance : AVSpeechUtterance?
@@ -64,7 +65,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
        
         
         blueMicrophoneImage = UIImage(named: "Microphone Icon Blue.png")!
-        
+        arrowImage = UIImage(named: "Arrow Icon.png")!
         
         //recordButton = UIButton()
         recordButton.addTarget(self, action: #selector(recordButtonTapped(sender:)), for: .touchUpInside)
@@ -72,7 +73,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         speakButton.addTarget(self, action: #selector(speakButtonTapped(sender:)), for: .touchUpInside)
         
         
-        let settingsButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsButtonTapped(sender:)))
+        let settingsButton = UIBarButtonItem(title: "Info", style: .plain, target: self, action: #selector(settingsButtonTapped(sender:)))
         settingsButton.tintColor = UIColor(red: 250/255.0, green: 250/255.0, blue: 250/255.0, alpha: 1)
         
         self.navigationItem.rightBarButtonItem = settingsButton
@@ -144,7 +145,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         speechField.clearButtonMode = .whileEditing
         speechField.isUserInteractionEnabled = true
         speechField.translatesAutoresizingMaskIntoConstraints = false
-        speechField.backgroundColor = .gray
+        speechField.backgroundColor = UIColor(red: 223/255.0, green: 223/255.0, blue: 223/255.0, alpha: 1)
         speechField.delegate = self
         
         bottomView.addSubview(speechField)
@@ -191,7 +192,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         recordButton.setImage(recordImage , for: .normal)
         
-        let leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 340)
+        let leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 310)
         //let trailingButtonConstraint = recordButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -5)
         let widthButtonConstraint = recordButton.widthAnchor.constraint(equalToConstant: 30)
         
@@ -220,28 +221,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        heightSpeakButtonConstraint.isActive = true
 //        widthSpeakButtonConstraint.isActive = true
         
-        //tableView.transform = CGAffineTransform (scaleX: 1,y: -1);
+
         
-//        textField.rightView = btnColor
-//        textField.rightViewMode = .unlessEditing
-//        for e.g
-//        
-//        let button = UIButton(type: .custom)
-//        button.setImage(UIImage(named: "send.png"), for: .normal)
-//        button.imageEdgeInsets = UIEdgeInsetsMake(0, -16, 0, 0)
-//        button.frame = CGRect(x: CGFloat(txt.frame.size.width - 25), y: CGFloat(5), width: CGFloat(25), height: CGFloat(25))
-//        button.addTarget(self, action: #selector(self.refresh), for: .touchUpInside)
-//        textField.rightView = button
-//        textField.rightViewMode = .always
+        //speakButton.backgroundColor = .red
         
-        speakButton.backgroundColor = .red
-        //speakButton.imageEdgeInsets = UIEdgeInsets(top: 0 , left: -16, bottom: 0, right: 0)
         speakButton.frame = CGRect( x: speechField.frame.size.width - 25, y: 5.0 , width: 25.0, height: 25.0)
-        
+        speakButton.setImage(arrowImage, for: .normal)
+        speakButton.imageEdgeInsets = UIEdgeInsets(top: 0 , left: -2, bottom: 0, right: 0)
         speechField.rightView = speakButton
         speechField.rightViewMode = .always
-        //speakButton.frame = CGRect(
-        //speakButton.addTarget(self, action: #selector(), for: .touchUpInside)
+     
 
         
         tableView.estimatedRowHeight = 100
@@ -416,6 +405,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    
+    
     func startRecording(speech: SpeechMessage) {
     
         if recognitionTask != nil {
@@ -534,6 +525,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 
 }
