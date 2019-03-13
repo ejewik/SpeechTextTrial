@@ -28,6 +28,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private let speechField : UITextField = UITextField()
     private var recordImage : UIImage = UIImage()
     private var bottomView : UIView = UIView()
+    private var blueMicrophoneImage : UIImage = UIImage()
     
     
     var utterance : AVSpeechUtterance?
@@ -62,7 +63,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
        
         
-        
+        blueMicrophoneImage = UIImage(named: "Microphone Icon Blue.png")!
         
         
         //recordButton = UIButton()
@@ -136,13 +137,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         utterance?.voice = AVSpeechSynthesisVoice(language: "en-US")
         speechField.translatesAutoresizingMaskIntoConstraints = false
         speechField.placeholder = "   Speak here"
+        
         speechField.font = UIFont.systemFont(ofSize: 17)
         speechField.keyboardType = .default
         speechField.returnKeyType = .default
         speechField.clearButtonMode = .whileEditing
         speechField.isUserInteractionEnabled = true
         speechField.translatesAutoresizingMaskIntoConstraints = false
-        speechField.backgroundColor = .white
+        speechField.backgroundColor = .gray
         speechField.delegate = self
         
         bottomView.addSubview(speechField)
@@ -163,7 +165,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         heightFieldConstraint.isActive = true
         
         speechField.layer.zPosition = 1
-        speechField.borderStyle = .roundedRect
+        
+        speechField.layer.cornerRadius = 20
         speechField.layer.cornerRadius = 15.0
         
       
@@ -177,7 +180,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.backgroundColor = UIColor( white: 0.98, alpha: 1 )
         
-        
+        tableView.allowsSelection = false
         
         recordButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -200,24 +203,45 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         heightButtonConstraint.isActive = true
         widthButtonConstraint.isActive = true
         
-        speakButton.translatesAutoresizingMaskIntoConstraints = false
-        speakButton.backgroundColor = .red
-        bottomView.addSubview(speakButton)
-        
-        let leadingSpeakButtonConstraint = speakButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 290)
-        //let trailingSpeakButtonConstraint = recordButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -50)
-        //let bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
-        let heightSpeakButtonConstraint = speakButton.heightAnchor.constraint(equalToConstant: 30)
-        let widthSpeakButtonConstraint = speakButton.widthAnchor.constraint(equalToConstant: 30)
-    
-
-        leadingSpeakButtonConstraint.isActive = true
-        //trailingSpeakButtonConstraint.isActive = true
-        //bottomSpeakButtonConstraint.isActive = true
-        heightSpeakButtonConstraint.isActive = true
-        widthSpeakButtonConstraint.isActive = true
+//        speakButton.translatesAutoresizingMaskIntoConstraints = false
+//        speakButton.backgroundColor = .red
+//        bottomView.addSubview(speakButton)
+//
+//        let leadingSpeakButtonConstraint = speakButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 290)
+//        //let trailingSpeakButtonConstraint = recordButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -50)
+//        //let bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
+//        let heightSpeakButtonConstraint = speakButton.heightAnchor.constraint(equalToConstant: 30)
+//        let widthSpeakButtonConstraint = speakButton.widthAnchor.constraint(equalToConstant: 30)
+//
+//
+//        leadingSpeakButtonConstraint.isActive = true
+//        //trailingSpeakButtonConstraint.isActive = true
+//        //bottomSpeakButtonConstraint.isActive = true
+//        heightSpeakButtonConstraint.isActive = true
+//        widthSpeakButtonConstraint.isActive = true
         
         //tableView.transform = CGAffineTransform (scaleX: 1,y: -1);
+        
+//        textField.rightView = btnColor
+//        textField.rightViewMode = .unlessEditing
+//        for e.g
+//        
+//        let button = UIButton(type: .custom)
+//        button.setImage(UIImage(named: "send.png"), for: .normal)
+//        button.imageEdgeInsets = UIEdgeInsetsMake(0, -16, 0, 0)
+//        button.frame = CGRect(x: CGFloat(txt.frame.size.width - 25), y: CGFloat(5), width: CGFloat(25), height: CGFloat(25))
+//        button.addTarget(self, action: #selector(self.refresh), for: .touchUpInside)
+//        textField.rightView = button
+//        textField.rightViewMode = .always
+        
+        speakButton.backgroundColor = .red
+        //speakButton.imageEdgeInsets = UIEdgeInsets(top: 0 , left: -16, bottom: 0, right: 0)
+        speakButton.frame = CGRect( x: speechField.frame.size.width - 25, y: 5.0 , width: 25.0, height: 25.0)
+        
+        speechField.rightView = speakButton
+        speechField.rightViewMode = .always
+        //speakButton.frame = CGRect(
+        //speakButton.addTarget(self, action: #selector(), for: .touchUpInside)
 
         
         tableView.estimatedRowHeight = 100
@@ -262,26 +286,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let bottomFieldConstraint : NSLayoutConstraint
         let bottomButtonConstraint : NSLayoutConstraint
-        let bottomSpeakButtonConstraint : NSLayoutConstraint
+        //let bottomSpeakButtonConstraint : NSLayoutConstraint
         if #available(iOS 11.0, *) {
             let bottomPadding = view.safeAreaInsets.bottom
             
             bottomFieldConstraint = speechField.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10 - bottomPadding)
             bottomButtonConstraint = recordButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10 - bottomPadding)
-            bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10 - bottomPadding)
+            //bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10 - bottomPadding)
             
         } else {
             
             bottomFieldConstraint = speechField.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
              bottomButtonConstraint = recordButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
-             bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
+             //bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
             
             
         }
         
         bottomFieldConstraint.isActive = true
         bottomButtonConstraint.isActive = true
-        bottomSpeakButtonConstraint.isActive = true
+        //bottomSpeakButtonConstraint.isActive = true
     }
     
     
@@ -356,6 +380,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("Record button tapped")
         if audioEngine.isRunning {
             audioEngine.stop()
+            recordButton.setImage(recordImage , for: .normal)
             recognitionRequest?.endAudio()
             recordButton.isEnabled = false
             speakButton.isEnabled = false
@@ -365,7 +390,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             speakButton.isEnabled = false
             speechAssign = SpeechMessage(text: "", isIncoming: true)
             self.speechMessages.append(speechAssign)
-          
+            recordButton.setImage(blueMicrophoneImage, for: .normal)
             startRecording(speech: speechAssign)
             
             
