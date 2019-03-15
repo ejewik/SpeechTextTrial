@@ -14,7 +14,7 @@ struct SpeechMessage {
     var isIncoming: Bool
 }
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SFSpeechRecognizerDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SFSpeechRecognizerDelegate, AVSpeechSynthesizerDelegate {
     
     //why are constraints not working for speechcell??
     private var tableView : UITableView!
@@ -37,7 +37,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     let synth = AVSpeechSynthesizer()
     
-    
+   
    // var cell : SpeechCell = SpeechCell()
     
     
@@ -59,7 +59,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        synth.delegate = self
         
         
        
@@ -93,23 +93,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
  
         navigationItem.title = ""
         navigationController?.navigationBar.prefersLargeTitles = false
-        navigationController?.navigationBar.barTintColor = UIColor(red: 0/255.0, green: 122/255.0, blue: 255/255.0, alpha: 1)
+        navigationController?.navigationBar.barTintColor = UIColor(red: 57/255.0, green: 125/255.0, blue: 220/255.0, alpha: 1)
         
         
         
         //initialize tableview and add constraints
  
-        tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        
-        view.addSubview(tableView)
-        
-        
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+//        tableView = UITableView()
+//        tableView.translatesAutoresizingMaskIntoConstraints = false
+//
+//
+//        view.addSubview(tableView)
+//
+//
+//        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+//        tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+//        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+//        tableView.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: 0).isActive = true
         
         //tableView.layer.zPosition = 3
         
@@ -130,6 +130,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //widthViewConstraint.isActive = true
         heightViewConstraint.isActive = true
         bottomViewConstraint.isActive = true
+        
+        tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        view.addSubview(tableView)
+        
+        
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: 0).isActive = true
         
         bottomView.layer.zPosition = 2
         bottomView.backgroundColor = UIColor(red: 250/255.0, green: 250/255.0, blue: 250/255.0, alpha: 1)
@@ -183,6 +195,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.allowsSelection = false
         
+        //let footerView : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
+        
+        
+        
+        //tableView.tableFooterView = footerView
+        
+        
         recordButton.translatesAutoresizingMaskIntoConstraints = false
         
         
@@ -192,13 +211,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         recordButton.setImage(recordImage , for: .normal)
         
-        let leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 310)
+        //let leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 310)
         //let trailingButtonConstraint = recordButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -5)
         let widthButtonConstraint = recordButton.widthAnchor.constraint(equalToConstant: 30)
         
         let heightButtonConstraint = recordButton.heightAnchor.constraint(equalToConstant: 30)
         
-        leadingButtonConstraint.isActive = true
+        //leadingButtonConstraint.isActive = true
         //trailingButtonConstraint.isActive = true
         //bottomButtonConstraint.isActive = true
         heightButtonConstraint.isActive = true
@@ -275,26 +294,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let bottomFieldConstraint : NSLayoutConstraint
         let bottomButtonConstraint : NSLayoutConstraint
+        let leadingButtonConstraint : NSLayoutConstraint
         //let bottomSpeakButtonConstraint : NSLayoutConstraint
         if #available(iOS 11.0, *) {
             let bottomPadding = view.safeAreaInsets.bottom
             
             bottomFieldConstraint = speechField.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10 - bottomPadding)
             bottomButtonConstraint = recordButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10 - bottomPadding)
-            //bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10 - bottomPadding)
+            leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 330)
             
         } else {
             
             bottomFieldConstraint = speechField.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
              bottomButtonConstraint = recordButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
-             //bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
+             leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: speechField.trailingAnchor, constant: 30)
+       
             
             
         }
         
         bottomFieldConstraint.isActive = true
         bottomButtonConstraint.isActive = true
-        //bottomSpeakButtonConstraint.isActive = true
+        leadingButtonConstraint.isActive = true
+     
     }
     
     
@@ -394,18 +416,37 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print(speakButton.isEnabled)
         synth.stopSpeaking(at: .immediate)
         if speakButton.isEnabled == true {
+            recordButton.isEnabled = false
             utterance = AVSpeechUtterance(string: speechField.text!)
             synth.speak(utterance!)
-            //messages.append(Message(message: speakField.text!, sender: "sender"))
+           
+            
+           
+            
             speechMessages.append(SpeechMessage(text: speechField.text!, isIncoming: false))
             speechField.text = ""
-            //self.tableView.cellForRow(at: IndexPath(row: self.messages.count-1, section: 0))?.textLabel?.text = speakField.text
+            
+//            if synth.isSpeaking {
+//                recordButton.isEnabled = false
+//            }
+//            else {
+//                recordButton.isEnabled = true
+//            }
+          
             getTableViewData()
-            //view.accessibilityScroll(direction: )
+            
         }
     }
     
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
+                           didFinish utterance: AVSpeechUtterance) {
+        recordButton.isEnabled = true
+    }
     
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer,
+                           didCancel utterance: AVSpeechUtterance) {
+        recordButton.isEnabled = true
+    }
     
     func startRecording(speech: SpeechMessage) {
     
@@ -416,7 +457,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.measurement)
+            try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.default, options: AVAudioSession.CategoryOptions.defaultToSpeaker)
+            
             //play and record??
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
             

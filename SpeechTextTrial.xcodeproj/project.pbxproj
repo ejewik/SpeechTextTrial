@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B0716B5221E73A200B41C41 /* KeyboardLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0716B4221E73A200B41C41 /* KeyboardLayoutConstraint.swift */; };
 		4B0716B7221E771200B41C41 /* KeyboardDismissExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0716B6221E771200B41C41 /* KeyboardDismissExtension.swift */; };
 		4B0716B9221F975100B41C41 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0716B8221F975100B41C41 /* SettingsViewController.swift */; };
 		4B0716BB2237343000B41C41 /* FadeTextExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0716BA2237343000B41C41 /* FadeTextExtension.swift */; };
@@ -21,7 +20,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4B0716B4221E73A200B41C41 /* KeyboardLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardLayoutConstraint.swift; path = Assets.xcassets/KeyboardLayoutConstraint.swift; sourceTree = "<group>"; };
 		4B0716B6221E771200B41C41 /* KeyboardDismissExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardDismissExtension.swift; sourceTree = "<group>"; };
 		4B0716B8221F975100B41C41 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4B0716BA2237343000B41C41 /* FadeTextExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeTextExtension.swift; sourceTree = "<group>"; };
@@ -67,7 +65,6 @@
 			isa = PBXGroup;
 			children = (
 				4B31D520220BB9AF00534E08 /* AppDelegate.swift */,
-				4B0716B4221E73A200B41C41 /* KeyboardLayoutConstraint.swift */,
 				4B31D522220BB9AF00534E08 /* ViewController.swift */,
 				4B0716B8221F975100B41C41 /* SettingsViewController.swift */,
 				4B0716B6221E771200B41C41 /* KeyboardDismissExtension.swift */,
@@ -159,7 +156,6 @@
 				4B31D523220BB9AF00534E08 /* ViewController.swift in Sources */,
 				4B0716BB2237343000B41C41 /* FadeTextExtension.swift in Sources */,
 				4B31D521220BB9AF00534E08 /* AppDelegate.swift in Sources */,
-				4B0716B5221E73A200B41C41 /* KeyboardLayoutConstraint.swift in Sources */,
 				4B31D536220BBF0B00534E08 /* SpeechCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,7 +312,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EmilyJewik.SpeechTextTrial;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -334,7 +330,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.EmilyJewik.SpeechTextTrial;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
