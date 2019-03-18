@@ -431,7 +431,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             speakButton.isEnabled = false
             speechAssign = SpeechMessage(text: "", isIncoming: true)
             self.speechMessages.append(speechAssign)
-            //tableView.scrollToBottom()
+            
             recordButton.setImage(blueMicrophoneImage, for: .normal)
             tableView.reloadData()
             startRecording(speech: speechAssign)
@@ -537,6 +537,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.speechMessages[self.speechMessages.count - 1].text = result?.bestTranscription.formattedString ?? ""
                 
                  self.tableView.reloadData()
+                self.tableView.scrollToBottom()
                 
                 isFinal = (result?.isFinal)!
             }
