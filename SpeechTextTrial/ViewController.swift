@@ -30,7 +30,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var bottomView : UIView = UIView()
     private var blueMicrophoneImage : UIImage = UIImage()
     private var arrowImage : UIImage = UIImage()
+    var leadingButtonConstraint : NSLayoutConstraint = NSLayoutConstraint()
     var cellHeightsDictionary: [IndexPath: CGFloat] = [:]
+    
+    
     
     var utterance : AVSpeechUtterance?
     
@@ -60,7 +63,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         
         synth.delegate = self
-        
+        print("Device height: \(UIScreen.main.bounds.height)")
         
        
         
@@ -262,6 +265,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         recordButton.isEnabled = false
         speechRecognizer.delegate = self
         
+        
+        
         SFSpeechRecognizer.requestAuthorization { (authStatus) in
             
             var isButtonEnabled = false
@@ -296,7 +301,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let bottomFieldConstraint : NSLayoutConstraint
         let bottomButtonConstraint : NSLayoutConstraint
-        let leadingButtonConstraint : NSLayoutConstraint
+        
         //let bottomSpeakButtonConstraint : NSLayoutConstraint
         if #available(iOS 11.0, *) {
             let bottomPadding = view.safeAreaInsets.bottom
@@ -305,11 +310,31 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             bottomButtonConstraint = recordButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10 - bottomPadding)
             leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 330)
             
+            if UIDevice().userInterfaceIdiom == .phone {
+                switch UIScreen.main.bounds.size.height{
+                case 568:
+                    print("iPhone 5")
+                    
+                    leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 270)
+                    //leadingButtonConstraint.isActive = true
+                    
+                    print("testing")
+                default:
+                    print("other models")
+                    leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: speechField.trailingAnchor, constant: 30)
+                }
+            }
+            
         } else {
             
             bottomFieldConstraint = speechField.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
              bottomButtonConstraint = recordButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
-             leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: speechField.trailingAnchor, constant: 30)
+            leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: speechField.trailingAnchor, constant: 30)
+            
+            
+            
+            
+            
            // leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 30)
             
        
