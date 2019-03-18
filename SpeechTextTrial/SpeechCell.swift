@@ -41,11 +41,11 @@ class SpeechCell: UITableViewCell {
 //
 //            speechLabel.transform = CGAffineTransform(rotationAngle: (180.0 * CGFloat(Double.pi)) / 180.0)
             
-            if speechMessage.isIncoming {
+            if speechMessage.isIncoming { // gray
                 leadingConstraint.isActive = true
                 trailingConstraint.isActive = false
             }
-            else {
+            else { // blue
                 leadingConstraint.isActive = false
                 trailingConstraint.isActive = true
             }
@@ -74,19 +74,25 @@ class SpeechCell: UITableViewCell {
         
         //constraints
         topConstraint = speechLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16)
+        topConstraint.identifier = "topConstraint"
         topConstraint.isActive = true
         
         bottomConstraint = speechLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+        bottomConstraint.identifier = "bottomConstraint"
         bottomConstraint.isActive = true
         
         let widthConstraint = speechLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 250)
-        
+        widthConstraint.identifier = "widthConstraint"
+        widthConstraint.priority = UILayoutPriority(rawValue: 999)
         NSLayoutConstraint.activate([widthConstraint])
         
+        
         leadingConstraint = speechLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16)
+        leadingConstraint.identifier = "leadingConstraint"
         leadingConstraint.isActive = false
         
         trailingConstraint = speechLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+        trailingConstraint.identifier = "trailingConstraint"
         trailingConstraint.isActive = true
         
         

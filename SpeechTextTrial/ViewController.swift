@@ -30,7 +30,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var bottomView : UIView = UIView()
     private var blueMicrophoneImage : UIImage = UIImage()
     private var arrowImage : UIImage = UIImage()
-    
+    var cellHeightsDictionary: [IndexPath: CGFloat] = [:]
     
     var utterance : AVSpeechUtterance?
     
@@ -143,6 +143,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         tableView.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: 0).isActive = true
         
+        
         bottomView.layer.zPosition = 2
         bottomView.backgroundColor = UIColor(red: 250/255.0, green: 250/255.0, blue: 250/255.0, alpha: 1)
         //initialize speech text field and set constraints
@@ -150,7 +151,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         utterance?.voice = AVSpeechSynthesisVoice(language: "en-US")
         speechField.translatesAutoresizingMaskIntoConstraints = false
         speechField.placeholder = "   Speak here"
-        
+       
+       
         speechField.font = UIFont.systemFont(ofSize: 17)
         speechField.keyboardType = .default
         speechField.returnKeyType = .default
@@ -252,7 +254,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
      
 
         
-        tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
         
@@ -308,6 +310,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             bottomFieldConstraint = speechField.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
              bottomButtonConstraint = recordButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
              leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: speechField.trailingAnchor, constant: 30)
+           // leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 30)
+            
        
             
             
@@ -394,6 +398,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             recordButton.setImage(recordImage , for: .normal)
             recognitionRequest?.endAudio()
             recordButton.isEnabled = false
+            //change to true see what happens
             speakButton.isEnabled = false
             //speakButton.isEnabled = false
             
@@ -401,7 +406,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             speakButton.isEnabled = false
             speechAssign = SpeechMessage(text: "", isIncoming: true)
             self.speechMessages.append(speechAssign)
+            //tableView.scrollToBottom()
             recordButton.setImage(blueMicrophoneImage, for: .normal)
+            tableView.reloadData()
             startRecording(speech: speechAssign)
             
             
@@ -453,6 +460,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if recognitionTask != nil {
             recognitionTask?.cancel()
             recognitionTask = nil
+            recordButton.isEnabled = false
         }
         
         let audioSession = AVAudioSession.sharedInstance()
@@ -480,6 +488,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             var isFinal = false
             
             if result != nil {
+                
+                
+                
+                
                 //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.textLabel?.text = result?.bestTranscription.formattedString
                 //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.
                 //self.speechMessages.append(self.speechAssign)
@@ -487,13 +499,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.speechLabel.text = result?.bestTranscription.formattedString
                 //self.speechAssign.text = result?.bestTranscription.formattedString ?? ""
                 //self.cell.speechLabel.text = result?.bestTranscription.formattedString ?? ""
-                self.tableView.reloadData()
+                //self.tableView.reloadData()
+                
                 
                 //if result?.bestTranscription.formattedString != nil {
                 
+//                self.tableView.beginUpdates()
+//
+//                let rows = self.tableView.numberOfRows(inSection: 0)
+//
+//                let indexPath = IndexPath(row: rows - 1, section: 0)
+//
+//                UIView.performWithoutAnimation {
+//                    let loc = self.tableView.contentOffset
+//                    self.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
+//                    self.tableView.contentOffset = loc
+//                }
+                
+                self.tableView.reloadData()
+               
+                
                 self.speechMessages[self.speechMessages.count - 1].text = result?.bestTranscription.formattedString ?? ""
                 
-                
+//               self.tableView.endUpdates()
+               
                     
                    // self.speechMessages.removeLast()
                     
@@ -522,6 +551,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 self.recordButton.isEnabled = true
                 self.speakButton.isEnabled = true
+               
             
             }
         } )
@@ -544,6 +574,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        // print("Cell height: \(cell.frame.size.height)")
+        self.cellHeightsDictionary[indexPath] = cell.frame.size.height
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let height =  self.cellHeightsDictionary[indexPath] {
+            return height
+        }
+        return UITableView.automaticDimension
+    }
+    
+   
+    
+    
     func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if available {
             recordButton.isEnabled = true
@@ -552,10 +597,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func tableView(_ tableView: UITableView,
-                            heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
+//    func tableView(_ tableView: UITableView,
+//                            heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//    }
     
     func getTableViewData(){
         tableView.reloadData()
@@ -593,48 +638,39 @@ extension UITableView {
 extension ViewController: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        // return NO to disallow editing.
-        print("TextField should begin editing method called")
+       
         return true
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        // became first responder
-        print("TextField did begin editing method called")
+      
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        // return YES to allow editing to stop and to resign first responder status. NO to disallow the editing session to end
-        print("TextField should snd editing method called")
+       
         return true
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        // may be called if forced even if shouldEndEditing returns NO (e.g. view removed from window) or endEditing:YES called
-        print("TextField did end editing method called")
+      
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        // if implemented, called in place of textFieldDidEndEditing:
-        print("TextField did end editing with reason method called")
+      
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // return NO to not change text
-        print("While entering the characters this method gets called")
+     
         return true
     }
     
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        // called when clear button pressed. return NO to ignore (no notifications)
-        print("TextField should clear method called")
+     
         return true
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // called when 'return' key pressed. return NO to ignore.
-        print("TextField should return method called")
-        // may be useful: textField.resignFirstResponder()
+   
         return true
     }
     
