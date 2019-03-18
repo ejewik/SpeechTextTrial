@@ -12,7 +12,7 @@ class SpeechCell: UITableViewCell {
 
    let speechLabel = UILabel()
     
-    //need to set all constraints with relation to the superview...
+ 
     
     var leadingConstraint: NSLayoutConstraint!
     var trailingConstraint: NSLayoutConstraint!
@@ -24,22 +24,12 @@ class SpeechCell: UITableViewCell {
             speechLabel.textColor = speechMessage.isIncoming ? .black : UIColor(red: 18/255.0, green: 150/255.0, blue: 255/255.0, alpha: 1 )
             
             
-             //speechLabel.text = speechLabel.text
-            
-//            ViewController.transition(with: speechLabel,
-//                              duration: 0.25,
-//                              options: [.transitionCrossDissolve],
-//                              animations: {
-//                                speechLabel.text = speechLabel.text
-//            }, completion: nil)
+ 
             
              speechLabel.font = UIFont(name: "PingFang HK", size: 20)
             
             
-//            speechLabel.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-//            speechLabel.transform = CGAffineTransform( scaleX: -1,y: 1)
-//
-//            speechLabel.transform = CGAffineTransform(rotationAngle: (180.0 * CGFloat(Double.pi)) / 180.0)
+
             
             if speechMessage.isIncoming { // gray
                 leadingConstraint.isActive = true
@@ -52,13 +42,7 @@ class SpeechCell: UITableViewCell {
         }
     }
     
-//    var isIncoming: Bool! {
-//        didSet {
-//            speechLabel.textColor = isIncoming ? .darkGray : .blue
-//        }
-//    }
-    
-    //puts message label in cell
+
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -72,7 +56,7 @@ class SpeechCell: UITableViewCell {
         
         speechLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        //constraints
+   
         topConstraint = speechLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16)
         topConstraint.identifier = "topConstraint"
         topConstraint.isActive = true
