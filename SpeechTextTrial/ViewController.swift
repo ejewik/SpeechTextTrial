@@ -16,7 +16,7 @@ struct SpeechMessage {
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SFSpeechRecognizerDelegate, AVSpeechSynthesizerDelegate {
     
-    //why are constraints not working for speechcell??
+ 
     private var tableView : UITableView!
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale.init(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
@@ -51,13 +51,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     var speechMessages : [SpeechMessage] = []
     
-//    let bottomView : UIView = {
-//        let bottomView = UIView()
-//        bottomView.backgroundColor = .red
-//        bottomView.translatesAutoresizingMaskIntoConstraints = false
-//        return bottomView
-//    }()
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,8 +62,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         blueMicrophoneImage = UIImage(named: "Microphone Icon Blue.png")!
         arrowImage = UIImage(named: "Arrow Icon.png")!
-        
-        //recordButton = UIButton()
+       
         recordButton.addTarget(self, action: #selector(recordButtonTapped(sender:)), for: .touchUpInside)
         
         speakButton.addTarget(self, action: #selector(speakButtonTapped(sender:)), for: .touchUpInside)
@@ -82,14 +74,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.navigationItem.rightBarButtonItem = settingsButton
         self.navigationItem.rightBarButtonItem?.tintColor = .white
         
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        //Looks for single or multiple taps.
+
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
         
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-        //tap.cancelsTouchesInView = false
+
         
         view.addGestureRecognizer(tap)
         self.hideKeyboardWhenTappedAround()
@@ -100,23 +92,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
         
-        //initialize tableview and add constraints
  
-//        tableView = UITableView()
-//        tableView.translatesAutoresizingMaskIntoConstraints = false
-//
-//
-//        view.addSubview(tableView)
-//
-//
-//        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-//        tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-//        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-//        tableView.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: 0).isActive = true
         
         //tableView.layer.zPosition = 3
-        
-        //initialize bottom view and set constraints
+
         
         bottomView = UIView()
         bottomView.translatesAutoresizingMaskIntoConstraints = false
@@ -125,12 +104,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let leadingViewConstraint = bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         let trailingViewConstraint = bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         let bottomViewConstraint = bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        //let widthViewConstraint = bottomView.widthAnchor.constraint(equalToConstant: 400)
         let heightViewConstraint = bottomView.heightAnchor.constraint(equalToConstant: 60)
         
         leadingViewConstraint.isActive = true
         trailingViewConstraint.isActive = true
-        //widthViewConstraint.isActive = true
         heightViewConstraint.isActive = true
         bottomViewConstraint.isActive = true
         
@@ -149,14 +126,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         bottomView.layer.zPosition = 2
         bottomView.backgroundColor = UIColor(red: 250/255.0, green: 250/255.0, blue: 250/255.0, alpha: 1)
-        //initialize speech text field and set constraints
+     
         
         utterance?.voice = AVSpeechSynthesisVoice(language: "en-US")
         speechField.translatesAutoresizingMaskIntoConstraints = false
         speechField.placeholder = "   Speak here"
+        speechField.font = UIFont(name: "PingFang HK", size: 17)
        
        
-        speechField.font = UIFont.systemFont(ofSize: 17)
+        
         speechField.keyboardType = .default
         speechField.returnKeyType = .default
         speechField.clearButtonMode = .whileEditing
@@ -172,14 +150,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let leadingFieldConstraint = speechField.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 20)
         let trailingFieldConstraint = speechField.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -100)
        
-       // let widthFieldConstraint = speechField.widthAnchor.constraint(equalToConstant: 250)
+    
         let heightFieldConstraint = speechField.heightAnchor.constraint(equalToConstant: 30)
         
         
         
         leadingFieldConstraint.isActive = true
         trailingFieldConstraint.isActive = true
-        //bottomFieldConstraint.isActive = true
         heightFieldConstraint.isActive = true
         
         speechField.layer.zPosition = 1
@@ -200,12 +177,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         tableView.allowsSelection = false
         
-        //let footerView : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
-        
-        
-        
-        //tableView.tableFooterView = footerView
-        
+
         
         recordButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -216,38 +188,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         recordButton.setImage(recordImage , for: .normal)
         
-        //let leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 310)
-        //let trailingButtonConstraint = recordButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -5)
+ 
         let widthButtonConstraint = recordButton.widthAnchor.constraint(equalToConstant: 30)
         
         let heightButtonConstraint = recordButton.heightAnchor.constraint(equalToConstant: 30)
         
-        //leadingButtonConstraint.isActive = true
-        //trailingButtonConstraint.isActive = true
-        //bottomButtonConstraint.isActive = true
+     
         heightButtonConstraint.isActive = true
         widthButtonConstraint.isActive = true
         
-//        speakButton.translatesAutoresizingMaskIntoConstraints = false
-//        speakButton.backgroundColor = .red
-//        bottomView.addSubview(speakButton)
-//
-//        let leadingSpeakButtonConstraint = speakButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 290)
-//        //let trailingSpeakButtonConstraint = recordButton.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -50)
-//        //let bottomSpeakButtonConstraint = speakButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -10)
-//        let heightSpeakButtonConstraint = speakButton.heightAnchor.constraint(equalToConstant: 30)
-//        let widthSpeakButtonConstraint = speakButton.widthAnchor.constraint(equalToConstant: 30)
-//
-//
-//        leadingSpeakButtonConstraint.isActive = true
-//        //trailingSpeakButtonConstraint.isActive = true
-//        //bottomSpeakButtonConstraint.isActive = true
-//        heightSpeakButtonConstraint.isActive = true
-//        widthSpeakButtonConstraint.isActive = true
-        
 
-        
-        //speakButton.backgroundColor = .red
         
         speakButton.frame = CGRect( x: speechField.frame.size.width - 25, y: 5.0 , width: 25.0, height: 25.0)
         speakButton.setImage(arrowImage, for: .normal)
@@ -302,7 +252,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let bottomFieldConstraint : NSLayoutConstraint
         let bottomButtonConstraint : NSLayoutConstraint
         
-        //let bottomSpeakButtonConstraint : NSLayoutConstraint
+       
         if #available(iOS 11.0, *) {
             let bottomPadding = view.safeAreaInsets.bottom
             
@@ -335,7 +285,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             
             
-           // leadingButtonConstraint = recordButton.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 30)
+    
             
        
             
@@ -360,37 +310,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! SpeechCell
         
-        //transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi));
+       
         
         let speechMessage = speechMessages[indexPath.row]
         
         //try for fade in effect later on
         
         cell.speechLabel.text = speechMessage.text
-//        cell.isIncoming = speechMessage.isIncoming
+
         
         cell.speechMessage = speechMessage
         
-        //cell.isIncoming = true
-//        cell.isIncoming = indexPath.row % 2 == 0
-        
-        //cell.contentView.transform = CGAffineTransform (scaleX: 1,y: -1);
+
         
         return cell
     }
     
-//    func updateTableContentInset() {
-//        let numRows = tableView(self.tableView, numberOfRowsInSection: 0)
-//        var contentInsetTop = self.tableView.bounds.size.height
-//        for i in 0..<numRows {
-//            let rowRect = self.tableView.rectForRow(at: IndexPath(item: i, section: 0))
-//            contentInsetTop -= rowRect.size.height
-//            if contentInsetTop <= 0 {
-//                contentInsetTop = 0
-//            }
-//        }
-//        self.tableView.contentInset = UIEdgeInsets(top: contentInsetTop, left: 0, bottom: 0, right: 0)
-//    }
+
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
@@ -441,7 +377,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    //maybe append "       " speechMessage to last cell to move up view???
+   
     
     @objc func speakButtonTapped(sender: UIButton!) {
         print("speakButtonTapped")
@@ -546,27 +482,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.audioEngine.stop()
                 inputNode.removeTap(onBus: 0)
                 
-//                let audioSession = AVAudioSession.sharedInstance()
-//                do {
-//                
-//                try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.default, options: AVAudioSession.CategoryOptions.defaultToSpeaker)
-//                
-//                
-//                try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-//                
-//            } catch {
-//                print("audioSession properties weren't set because of an error.")
-//            }
-//                let audioSession = AVAudioSession.sharedInstance()
-//                do {
-//                    try audioSession.setCategory(AVAudioSession.Category.record, mode: AVAudioSession.Mode.default, options: AVAudioSession.CategoryOptions.defaultToSpeaker)
-//
-//                    //play and record??
-//                    try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-//
-//                } catch {
-//                    print("audioSession properties weren't set because of an error.")
-//                }
+
                 
                 self.recognitionRequest = nil
                 self.recognitionTask = nil
