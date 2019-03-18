@@ -397,7 +397,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             audioEngine.stop()
             recordButton.setImage(recordImage , for: .normal)
             recognitionRequest?.endAudio()
-            recordButton.isEnabled = false
+            recordButton.isEnabled = true
             //change to true see what happens
             speakButton.isEnabled = false
             //speakButton.isEnabled = false
@@ -422,6 +422,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         print("speakButtonTapped")
         print(speakButton.isEnabled)
         synth.stopSpeaking(at: .immediate)
+        
+        
+                        let audioSession = AVAudioSession.sharedInstance()
+                        do {
+
+                        try audioSession.setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default, options: AVAudioSession.CategoryOptions.defaultToSpeaker)
+
+
+                        try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+
+                    } catch {
+                        print("audioSession properties weren't set because of an error.")
+                    }
+
+        
         if speakButton.isEnabled == true {
             recordButton.isEnabled = false
             utterance = AVSpeechUtterance(string: speechField.text!)
@@ -433,12 +448,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             speechMessages.append(SpeechMessage(text: speechField.text!, isIncoming: false))
             speechField.text = ""
             
-//            if synth.isSpeaking {
-//                recordButton.isEnabled = false
-//            }
-//            else {
-//                recordButton.isEnabled = true
-//            }
+
           
             getTableViewData()
             
@@ -465,7 +475,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.default, options: AVAudioSession.CategoryOptions.defaultToSpeaker)
+            try audioSession.setCategory(AVAudioSession.Category.record, mode: AVAudioSession.Mode.default, options: AVAudioSession.CategoryOptions.defaultToSpeaker)
             
             //play and record??
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
@@ -477,6 +487,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         
         let inputNode = audioEngine.inputNode
+        print("inputNode: \(inputNode)")
+        
         
         guard let recognitionRequest = recognitionRequest else {
             fatalError("Unable to create an SFSpeechAudioBufferRecognitionRequest object")
@@ -492,48 +504,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 
                 
-                //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.textLabel?.text = result?.bestTranscription.formattedString
-                //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.
-                //self.speechMessages.append(self.speechAssign)
-                //self.speechAssign.isIncoming = false
-                //self.tableView.cellForRow(at: IndexPath(row: self.speechMessages.count - 1, section: 0))?.speechLabel.text = result?.bestTranscription.formattedString
-                //self.speechAssign.text = result?.bestTranscription.formattedString ?? ""
-                //self.cell.speechLabel.text = result?.bestTranscription.formattedString ?? ""
-                //self.tableView.reloadData()
+               
                 
-                
-                //if result?.bestTranscription.formattedString != nil {
-                
-//                self.tableView.beginUpdates()
-//
-//                let rows = self.tableView.numberOfRows(inSection: 0)
-//
-//                let indexPath = IndexPath(row: rows - 1, section: 0)
-//
-//                UIView.performWithoutAnimation {
-//                    let loc = self.tableView.contentOffset
-//                    self.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
-//                    self.tableView.contentOffset = loc
-//                }
-                
-                self.tableView.reloadData()
+               
                
                 
                 self.speechMessages[self.speechMessages.count - 1].text = result?.bestTranscription.formattedString ?? ""
                 
-//               self.tableView.endUpdates()
-               
-                    
-                   // self.speechMessages.removeLast()
-                    
-                    
-               // }
-                
-                
-                //if result?.bestTranscription.formattedString == nil {
-                //    print( "this is\(result?.bestTranscription.formattedString)")
-                //    self.speechMessages.removeLast()
-                //}
+                 self.tableView.reloadData()
                 
                 isFinal = (result?.isFinal)!
             }
@@ -542,7 +520,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.audioEngine.stop()
                 inputNode.removeTap(onBus: 0)
                 
-                
+//                let audioSession = AVAudioSession.sharedInstance()
+//                do {
+//                
+//                try audioSession.setCategory(AVAudioSession.Category.playAndRecord, mode: AVAudioSession.Mode.default, options: AVAudioSession.CategoryOptions.defaultToSpeaker)
+//                
+//                
+//                try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+//                
+//            } catch {
+//                print("audioSession properties weren't set because of an error.")
+//            }
+//                let audioSession = AVAudioSession.sharedInstance()
+//                do {
+//                    try audioSession.setCategory(AVAudioSession.Category.record, mode: AVAudioSession.Mode.default, options: AVAudioSession.CategoryOptions.defaultToSpeaker)
+//
+//                    //play and record??
+//                    try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+//
+//                } catch {
+//                    print("audioSession properties weren't set because of an error.")
+//                }
                 
                 self.recognitionRequest = nil
                 self.recognitionTask = nil
