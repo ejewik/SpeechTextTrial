@@ -68,7 +68,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         speakButton.addTarget(self, action: #selector(speakButtonTapped(sender:)), for: .touchUpInside)
         
         
-        let settingsButton = UIBarButtonItem(title: "Info", style: .plain, target: self, action: #selector(settingsButtonTapped(sender:)))
+        let settingsButton = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(settingsButtonTapped(sender:)))
         settingsButton.tintColor = UIColor(red: 250/255.0, green: 250/255.0, blue: 250/255.0, alpha: 1)
         
         self.navigationItem.rightBarButtonItem = settingsButton
@@ -349,7 +349,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        self.present(nextViewController, animated:true, completion:nil)
         
         let settingsViewController : SettingsViewController = SettingsViewController()
+        self.navigationController!.popViewController(animated: true)
         self.navigationController!.pushViewController(settingsViewController, animated: true)
+        
     }
     
     @objc func recordButtonTapped(sender: UIButton!) {
